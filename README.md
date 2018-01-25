@@ -7,7 +7,7 @@ Python client to manage Datawheel APIs
 For example, if you want to use DataChile API:
 
 ```
-from opendata.datachile import DataChile
+from opendata_rest.datachile import DataChile
 
 q = DataChile.get(
         "exports",
