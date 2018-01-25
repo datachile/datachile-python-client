@@ -1,4 +1,4 @@
-from opendata.datachile import DataChile
+from opendata_rest.datachile import DataChile
 
 q = DataChile.get(
         "exports",

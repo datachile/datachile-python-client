@@ -1,5 +1,5 @@
 from mondrian_rest import Cube, MondrianClient
-from opendata import client
+from opendata_rest import client
 import json
 
 API_BASE = "http://chilecube.datawheel.us"
