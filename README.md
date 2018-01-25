@@ -2,9 +2,7 @@
 Python client to manage Datawheel APIs
 
 # Installing
-`python setup.py build`
-
-`python setup.py install`
+`pip install opendata_rest`
 
 For example, if you want to use DataChile API:
 
