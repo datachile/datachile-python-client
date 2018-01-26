@@ -19,3 +19,8 @@ print(q)
 ```
 # Documentation
 More information will be found on the DataChile documentation site on March, 3th.
+
+# Development
+
+## Contributing
+Long-term discussion and bug reports are maintained via GitHub Issues. Code review is done via GitHub Pull Requests.
