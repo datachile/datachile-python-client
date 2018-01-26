@@ -17,17 +17,32 @@ class DataChile(object):
         _client = MondrianClient(API_BASE)
         cube = _client.get_cube(cube_id)
 
-        agg = _client.get_aggregation(
-            cube, {
-                "drilldown": [{
-                    "full_name":
-                    ".".join("[{}]".format(x) for x in dd)
-                } for dd in params["drilldowns"]],
-                "cut": [],
-                "measures": [{
-                    "name": item
-                } for item in params["measures"]]
-            })
+        obj = {
+            "drilldown": [{
+                "full_name": ".".join("[{}]".format(x) for x in dd)
+            } for dd in params["drilldowns"]],
+            "cut": [],
+            "measures": [{
+                "name": item
+            } for item in params["measures"]]
+        }
+
+        if(params["cuts"]):
+            c = []
+            for cut in params["cuts"]:
+                dd = ".".join("[{}]".format(x) for x in cut["dimension"])
+                output = []
+                for value in cut["values"]:
+                    output.append("{}.&[{}]".format(dd,value))
+                output = ",".join(output)
+                output = "{"+output+"}"
+                c.append(output)
+            #print(c)
+            obj["cut"] = c
+
+                
+
+        agg = _client.get_aggregation(cube, obj)
         q = agg.tidy
 
         data = []
@@ -46,7 +61,7 @@ class DataChile(object):
         if sort:
             #print(q["data"].sort(key=lambda x: x["FOB US"]))
             q["data"].sort(
-                key=lambda x: [ x[attr] for attr in sort["attrs"] ] ,
+                key=lambda x: [x[attr] for attr in sort["attrs"]],
                 reverse=(True if sort["order"] == "DESC" else False))
 
         if fm == "json":
