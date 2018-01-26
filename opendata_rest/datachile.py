@@ -16,10 +16,28 @@ class DataChile(object):
         agg = _client.get_aggregation(
             cube, {
                 "drilldown": [{
-                    "full_name": ".".join("[{}]".format(x) for x in dd)
+                    "full_name":
+                    ".".join("[{}]".format(x) for x in dd)
                 } for dd in params["drilldowns"]],
                 "cut": [],
-                "measures": [ {"name": item } for item in params["measures"] ]
+                "measures": [{
+                    "name": item
+                } for item in params["measures"]]
             })
-        p = json.dumps(agg.tidy)
+        q = agg.tidy
+
+        data = []
+        n_axes = len(q["axes"])
+
+        for item in q["data"]:
+            obj = {}
+            for i, dd in enumerate(q["axes"]):
+                obj[dd["level"]] = item[i]["caption"]
+            for i, ms in enumerate(q["measures"]):
+                obj[ms["caption"]] = item[n_axes + i]
+            data.append(obj)
+
+
+        q["data"] = data
+        p = json.dumps(q)
         return p

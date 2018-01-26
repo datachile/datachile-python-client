@@ -1,4 +1,5 @@
 /build
 /dist
-/opendata.egg-info
+/opendata_rest.egg-info
 /.vscode
+/opendata_rest/__pycache__

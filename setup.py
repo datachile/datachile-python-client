@@ -14,7 +14,8 @@ setup(
         'mondrian_rest==0.1',
         'numpy',
         'requests',
-        'pandas'
+        'pandas',
+        'intertools'
     ],
     dependency_links=[
         "git+https://github.com/jazzido/py-mondrian-rest.git#egg=mondrian_rest-0.1"
