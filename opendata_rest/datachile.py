@@ -11,13 +11,13 @@ class DataChile(object):
 
     def get(cube_id,
             params={},
-            sort={"attrs": False,
-                  "order": "DESC"},
+            sort=False,
             fm="json"):
         _client = MondrianClient(API_BASE)
         cube = _client.get_cube(cube_id)
 
         obj = {
+            "caption": "ES",
             "drilldown": [{
                 "full_name": ".".join("[{}]".format(x) for x in dd)
             } for dd in params["drilldowns"]],
@@ -28,7 +28,6 @@ class DataChile(object):
         }
 
         if(params["cuts"]):
-            c = []
             for cut in params["cuts"]:
                 dd = ".".join("[{}]".format(x) for x in cut["dimension"])
                 output = []
@@ -36,9 +35,10 @@ class DataChile(object):
                     output.append("{}.&[{}]".format(dd,value))
                 output = ",".join(output)
                 output = "{"+output+"}"
-                c.append(output)
-            #print(c)
-            obj["cut"] = c
+                obj["cut"].append(output)
+
+        if params["parents"]:
+            obj["parents"] = params["parents"]
 
                 
 
@@ -47,9 +47,10 @@ class DataChile(object):
 
         data = []
         n_axes = len(q["axes"])
-
+        import json
         for item in q["data"]:
             obj = {}
+            print(json.dumps(item))
             for i, dd in enumerate(q["axes"]):
                 obj[dd["level"]] = item[i]["caption"]
             for i, ms in enumerate(q["measures"]):
