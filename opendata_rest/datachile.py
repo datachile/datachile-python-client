@@ -1,5 +1,5 @@
 from mondrian_rest import Cube, MondrianClient
-from opendata_rest import client
+from opendata_rest import client, download
 import json
 
 API_BASE = "http://chilecube.datawheel.us"
@@ -9,7 +9,11 @@ class DataChile(object):
     def __init__():
         return True
 
-    def get(cube_id, params={}, format="json"):
+    def get(cube_id,
+            params={},
+            sort={"key": False,
+                  "order": "DESC"},
+            fm="json"):
         _client = MondrianClient(API_BASE)
         cube = _client.get_cube(cube_id)
 
@@ -34,10 +38,19 @@ class DataChile(object):
             for i, dd in enumerate(q["axes"]):
                 obj[dd["level"]] = item[i]["caption"]
             for i, ms in enumerate(q["measures"]):
-                obj[ms["caption"]] = item[n_axes + i]
+                obj[ms["caption"]] = item[n_axes + i] if item[n_axes
+                                                              + i] else 0
             data.append(obj)
 
-
         q["data"] = data
-        p = json.dumps(q)
-        return p
+
+        if sort:
+            #print(q["data"].sort(key=lambda x: x["FOB US"]))
+            q["data"].sort(
+                key=lambda x: x[sort["key"]],
+                reverse=(True if sort["order"] == "DESC" else False))
+
+        if fm == "json":
+            return q
+        elif fm == "xml":
+            return download.Download(q).xml

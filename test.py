@@ -5,6 +5,7 @@ q = DataChile.get(
         "drilldowns": [["Date", "Year"],
                        ["Destination Country", "Country", "Continent"]],
         "measures": ["FOB US", "Geo Rank"]
-    })
+    }, {"key":"FOB US", "order": "ASC"})
 
-print(q)
+import json
+print(json.dumps(q))
