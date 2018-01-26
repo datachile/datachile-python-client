@@ -6,21 +6,25 @@ from opendata_rest.datachile import DataChile
     }
 '''
 q = DataChile.get(
-    "exports", {
-        "drilldowns": [["Date", "Year"],
-                       ["Destination Country", "Country", "Country"]],
+    "exports", 
+    {
+        "drilldowns": [
+            ["Date", "Year"],
+            ["Destination Country", "Country", "Country"]
+        ],
         "measures": ["FOB US", "Geo Rank"],
-        "cuts": [{
-            "dimension": ["Date", "Year"],
-            "values": [2012, 2014]
-        }, {
-            "dimension": ["Export HS", "HS", "HS2"],
-            "values": ["010103", "010203"]
-        }],
-        
-            "parents": True
-        
-    })
+        "cuts": [
+            {
+                "dimension": ["Date", "Year"],
+                "values": [2012, 2014]
+            }, {
+                "dimension": ["Export HS", "HS", "HS2"],
+                "values": ["010103", "010203"]
+            }
+        ],
+        "parents": True
+    }
+)
 
 import json
 #print(json.dumps(q))

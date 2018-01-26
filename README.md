@@ -20,6 +20,12 @@ print(q)
 # Documentation
 More information will be found on the DataChile documentation site on March, 3th.
 
+## DataChile
+This is a global class, and connect with DataChile website data.
+
+### DataChile.get(cube, params, sort=False, format="json")
+Load data from the server using a `requests` and `mondrian_rest`.
+
 # Development
 
 ## Contributing
