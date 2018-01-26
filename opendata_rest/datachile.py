@@ -11,7 +11,7 @@ class DataChile(object):
 
     def get(cube_id,
             params={},
-            sort={"key": False,
+            sort={"attrs": False,
                   "order": "DESC"},
             fm="json"):
         _client = MondrianClient(API_BASE)
@@ -43,11 +43,10 @@ class DataChile(object):
             data.append(obj)
 
         q["data"] = data
-
         if sort:
             #print(q["data"].sort(key=lambda x: x["FOB US"]))
             q["data"].sort(
-                key=lambda x: x[sort["key"]],
+                key=lambda x: [ x[attr] for attr in sort["attrs"] ] ,
                 reverse=(True if sort["order"] == "DESC" else False))
 
         if fm == "json":
