@@ -1,11 +1,10 @@
 # opendata
-Python client to manage Datawheel APIs
+OpenData is a Python (2 and 3) library to access the Datawheel APIs. This library enables you to use public data from differents sources in your Python applications.
 
-# Installing
+# Install
 `pip install opendata_rest`
 
-For example, if you want to use DataChile API:
-
+# Simple Demo
 ```
 from opendata_rest.datachile import DataChile
 
@@ -18,3 +17,5 @@ q = DataChile.get(
 
 print(q)
 ```
+# Documentation
+More information will be found on the DataChile documentation site on March, 3th.
