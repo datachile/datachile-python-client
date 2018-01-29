@@ -4,13 +4,13 @@ from opendata_rest.datachile import DataChile
         "attrs": ["FOB US", "Year"],
         "order": "ASC"
     }
-'''
+
 q = DataChile.get(
     "exports", 
     {
         "drilldowns": [
             ["Date", "Year"],
-            ["Destination Country", "Country", "Country"]
+            ["Destination Country", "Country", "Continent"]
         ],
         "measures": ["FOB US", "Geo Rank"],
         "cuts": [
@@ -23,8 +23,11 @@ q = DataChile.get(
             }
         ],
         "parents": True
-    }
+    },
+    "es"
 )
+'''
+q = DataChile.get_members("exports", "Destination Country", "Continent")
 
 import json
-#print(json.dumps(q))
+print(json.dumps(q))

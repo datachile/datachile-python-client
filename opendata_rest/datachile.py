@@ -2,22 +2,27 @@ from mondrian_rest import Cube, MondrianClient
 from opendata_rest import client, download
 import json
 
-API_BASE = "http://chilecube.datawheel.us"
+API_BASE = "https://chilecube.datawheel.us"
 
 
 class DataChile(object):
     def __init__():
         return True
 
+    def get_members(cube_id, dimension, level):
+        return MondrianClient(API_BASE).get_members(cube_id, dimension, level)
+
     def get(cube_id,
             params={},
+            lang="en",
             sort=False,
             fm="json"):
         _client = MondrianClient(API_BASE)
         cube = _client.get_cube(cube_id)
 
         obj = {
-            "caption": "ES",
+            "sparse": "true",
+            "caption": lang,
             "drilldown": [{
                 "full_name": ".".join("[{}]".format(x) for x in dd)
             } for dd in params["drilldowns"]],
@@ -40,8 +45,6 @@ class DataChile(object):
         if params["parents"]:
             obj["parents"] = params["parents"]
 
-                
-
         agg = _client.get_aggregation(cube, obj)
         q = agg.tidy
 
@@ -50,7 +53,6 @@ class DataChile(object):
         import json
         for item in q["data"]:
             obj = {}
-            print(json.dumps(item))
             for i, dd in enumerate(q["axes"]):
                 obj[dd["level"]] = item[i]["caption"]
             for i, ms in enumerate(q["measures"]):
