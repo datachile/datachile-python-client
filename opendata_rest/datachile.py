@@ -21,7 +21,6 @@ class DataChile(object):
         cube = _client.get_cube(cube_id)
 
         obj = {
-            "sparse": "true",
             "caption": lang,
             "drilldown": [{
                 "full_name": ".".join("[{}]".format(x) for x in dd)
@@ -32,7 +31,7 @@ class DataChile(object):
             } for item in params["measures"]]
         }
 
-        if(params["cuts"]):
+        if params["cuts"]:
             for cut in params["cuts"]:
                 dd = ".".join("[{}]".format(x) for x in cut["dimension"])
                 output = []
@@ -71,3 +70,6 @@ class DataChile(object):
             return q
         elif fm == "xml":
             return download.Download(q).xml
+        elif fm == "csv":
+            #print(download.Download(q).csv)
+            return download.Download.csv(q, q)

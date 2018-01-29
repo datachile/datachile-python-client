@@ -23,3 +23,25 @@ class Download(object):
             return "\n".join(result_list)
 
         return "%s%s" % (line_padding, self._data)
+
+    def csv(self, data, delimiter=";"):
+        import json
+        import csv
+
+        #output = json.loads(data)
+        output = data["data"]
+        # open a file for writing
+        employ_data = open('tmp.csv', 'w', encoding='utf8')
+
+        # create the csv writer object
+        csvwriter = csv.writer(employ_data, delimiter=delimiter)
+        count = 0
+
+        for emp in output:
+            
+            if count == 0:
+                header = emp.keys()
+                csvwriter.writerow(header)
+                count += 1
+            csvwriter.writerow(emp.values())
+        employ_data.close()
