@@ -1,19 +1,33 @@
 # opendata
-OpenData is a Python (2 and 3) library to access the Datawheel APIs. This library enables you to use public data from differents sources in your Python applications.
+OpenData is a Python 3 library to access the DataChile API. This library enables you to use public data from differents sources in your Python applications.
 
 # Install
-`pip install opendata_rest`
+`pip install datachile`
 
 # Simple Demo
 ```
-from opendata_rest.datachile import DataChile
+from datachile import ChileCube
 
-q = DataChile.get(
-        "exports", {
-            "drilldowns": [["Date", "Year"],
-                        ["Destination Country", "Country", "Continent"]],
-            "measures": ["FOB US", "Geo Rank"]
-        }, {"attrs":["FOB US", "Year"], "order": "ASC"})
+q = ChileCube.get(
+        "exports", 
+        {
+            "drilldowns": [
+                ["Date", "Year"],
+                ["Destination Country", "Country", "Country"]
+            ],
+            "measures": ["FOB US"],
+            "cuts": [
+                {
+                    "dimension": ["Date", "Year"],
+                    "values": [2012, 2014]
+                }, {
+                    "dimension": ["Export HS", "HS", "HS2"],
+                    "values": ["010103", "010203"]
+                }
+            ],
+            "parents": True
+        }
+    )
 
 print(q)
 ```

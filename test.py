@@ -1,18 +1,26 @@
-from datachile.chilecube import ChileCube
+from datachile import ChileCube
 
 #, {
 #        "attrs": ["FOB US", "Year"],
 #        "order": "ASC"
 #    }
 
-q = ChileCube.get(
+#cubes = ChileCube.get_cubes()
+
+import json
+#print()
+file = open("data.json", "w")
+file.write(json.dumps(ChileCube.get_cubes()))
+file.close()
+
+'''q = ChileCube.get(
     "exports", 
     {
         "drilldowns": [
             ["Date", "Year"],
             ["Destination Country", "Country", "Country"]
         ],
-        "measures": ["FOB US", "Geo Rank"],
+        "measures": ["FOB US"],
         "cuts": [
             {
                 "dimension": ["Date", "Year"],
@@ -25,11 +33,10 @@ q = ChileCube.get(
         "parents": True
     },
     "es",
-    False,
-    "csv"
+    False
 )
+'''
+#q = ChileCube.get_members("exports", "Destination Country", "Continent")
 
-#q = DataChile.get_members("exports", "Destination Country", "Continent")
-
-import json
-print(json.dumps(q))
+#import json
+#print(json.dumps(q))

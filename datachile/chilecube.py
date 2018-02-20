@@ -4,15 +4,71 @@ import json
 
 API_BASE = "https://chilecube.datawheel.us"
 
-
 class ChileCube(object):
-    def __init__():
+    def __init__(self):
         return True
 
-    def get_members(cube_id, dimension, level):
+    def get_cubes(self):
+        _client = MondrianClient(API_BASE)
+        return [{
+            "dimensions": item.std_dimensions,
+            "measures": item.measures_by_name
+        } for item in _client.get_cubes()]
+
+    def get_cube(self, cube_id):
+        _client = MondrianClient(API_BASE)
+        cube = _client.get_cube(cube_id)
+        return {
+            "dimensions": cube.std_dimensions,
+            "measures": cube.measures_by_name
+        }
+
+    def get_measures(self, cube_id):
+        _client = MondrianClient(API_BASE)
+        cube = _client.get_cube(cube_id)
+        return [ ms for key, ms in cube.measures_by_name.items() ] 
+
+    def get_drilldowns(self, cube_id):
+        _client = MondrianClient(API_BASE)
+        cube = _client.get_cube(cube_id)
+        
+        dd = []
+
+        for key, dimension in cube.std_dimensions.items():
+            for hierarchy in dimension["hierarchies"]:
+                for level in hierarchy["levels"][1:]:
+                    dd.append({
+                        "dimension": dimension["name"],
+                        "hierarchy": hierarchy["name"],
+                        "level": level["name"],
+                        "drilldown": [
+                            dimension["name"], 
+                            hierarchy["name"], 
+                            level["name"]
+                        ]
+                    })
+        return dd
+
+    def get_regiones(self):
+        return [{
+            "region_id": comuna["key"],
+            "region": comuna["name"]
+        } for region in MondrianClient(API_BASE).get_members(
+            "exports", "Geography", "Region")["members"]]
+
+    def get_comunas(self):
+        return [{
+            "comuna_id": comuna["key"],
+            "comuna": comuna["name"],
+            "region_id": comuna["ancestors"][0]["key"],
+            "region": comuna["ancestors"][0]["name"]
+        } for comuna in MondrianClient(API_BASE).get_members(
+            "exports", "Geography", "Comuna")["members"]]
+
+    def get_members(self, cube_id, dimension, level):
         return MondrianClient(API_BASE).get_members(cube_id, dimension, level)
 
-    def get(cube_id, params={}, lang="en", sort=False, fm="json"):
+    def get(self, cube_id, params={}, lang="en", sort=False, fm="json"):
         _client = MondrianClient(API_BASE)
         cube = _client.get_cube(cube_id)
 

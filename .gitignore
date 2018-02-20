@@ -1,5 +1,5 @@
 /build
 /dist
-/opendata_rest.egg-info
+/datachile.egg-info
 /.vscode
-/opendata_rest/__pycache__
+/datachile/__pycache__
