@@ -1,11 +1,11 @@
-from opendata_rest.datachile import DataChile
+from datachile.chilecube import ChileCube
 
 #, {
 #        "attrs": ["FOB US", "Year"],
 #        "order": "ASC"
 #    }
 
-q = DataChile.get(
+q = ChileCube.get(
     "exports", 
     {
         "drilldowns": [
@@ -32,4 +32,4 @@ q = DataChile.get(
 #q = DataChile.get_members("exports", "Destination Country", "Continent")
 
 import json
-#print(json.dumps(q))
+print(json.dumps(q))

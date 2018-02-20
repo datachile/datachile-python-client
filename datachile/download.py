@@ -24,7 +24,7 @@ class Download(object):
 
         return "%s%s" % (line_padding, self._data)
 
-    def csv(self, data, delimiter=";"):
+    def csv(self, data, delimiter=","):
         import json
         import csv
 
