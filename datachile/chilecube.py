@@ -58,7 +58,7 @@ class ChileCube(object):
         return [{
             "region_id": comuna["key"],
             "region": comuna["name"]
-        } for region in MondrianClient(API_BASE).get_members(
+        } for region in self.client.get_members(
             "exports", "Geography", "Region")["members"]]
 
     def get_comunas(self):
@@ -67,7 +67,7 @@ class ChileCube(object):
             "comuna": comuna["name"],
             "region_id": comuna["ancestors"][0]["key"],
             "region": comuna["ancestors"][0]["name"]
-        } for comuna in MondrianClient(API_BASE).get_members(
+        } for comuna in self.client.get_members(
             "exports", "Geography", "Comuna")["members"]]
 
     def get(self, cube_id, params={}, lang="en", sort=False):
