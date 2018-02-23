@@ -1,4 +1,4 @@
-# opendata
+# DataChile
 `DataChile-API` is a Python 3 library to access the DataChile API. This library enables you to use public data from differents sources in your Python applications.
 
 # Install
@@ -6,7 +6,7 @@
 
 # Simple Demo
 
-Get all datasets availables in DataChile
+* Get all datasets availables in DataChile
 
 ```
 from datachile import ChileCube
@@ -17,7 +17,7 @@ query = client.get_cubes()
 print(query)
 ```
 
-Get drilldowns availables from "Election Participation" dataset.
+* Get drilldowns availables from "Election Participation" dataset.
 ```
 from datachile import ChileCube
 
@@ -31,7 +31,7 @@ print(dd)
 print(ms)
 ```
 
-Get exports from Chile in 2012-2014, divided in Year and Destination Country
+* Get exports from Chile in 2012-2014, divided in Year and Destination Country
 ```
 from datachile import ChileCube
 
