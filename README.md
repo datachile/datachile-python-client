@@ -11,6 +11,7 @@ Get exports from Chile in 2012-2014, divided in Year and Destination Country
 from datachile import ChileCube
 
 client = ChileCube()
+
 query = client.get(
     "exports", 
     {
@@ -30,6 +31,31 @@ query = client.get(
 )
 
 print(query)
+```
+
+Get all datasets availables in DataChile
+
+```
+from datachile import ChileCube
+
+client = ChileCube()
+query = client.get_cubes()
+
+print(query)
+```
+
+Get drilldowns availables from "Election Participation" dataset.
+```
+from datachile import ChileCube
+
+client = ChileCube()
+cube = "election_participation"
+
+dd = client.get_drilldowns(cube)
+ms = client.get_measures(cube)
+
+print(dd)
+print(ms)
 ```
 # Documentation
 Please refer to our extensive Wiki documentation for more information.
