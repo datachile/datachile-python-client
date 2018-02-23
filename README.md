@@ -5,39 +5,39 @@ OpenData is a Python 3 library to access the DataChile API. This library enables
 `pip install datachile`
 
 # Simple Demo
+
+Get exports from Chile in 2012-2014, divided in Year and Destination Country
 ```
 from datachile import ChileCube
 
-q = ChileCube.get(
-        "exports", 
-        {
-            "drilldowns": [
-                ["Date", "Year"],
-                ["Destination Country", "Country", "Country"]
-            ],
-            "measures": ["FOB US"],
-            "cuts": [
-                {
-                    "dimension": ["Date", "Year"],
-                    "values": [2012, 2014]
-                }, {
-                    "dimension": ["Export HS", "HS", "HS2"],
-                    "values": ["010103", "010203"]
-                }
-            ],
-            "parents": True
-        }
-    )
+client = ChileCube()
+query = client.get(
+    "exports", 
+    {
+        "drilldowns": [
+            ["Date", "Year"],
+            ["Destination Country", "Country", "Country"]
+        ],
+        "measures": ["FOB US"],
+        "cuts": [
+            {
+                "drilldown": ["Date", "Year"],
+                "values": [2012, 2013, 2014]
+            }
+        ],
+        "parents": True
+    }
+)
 
-print(q)
+print(query)
 ```
 # Documentation
-More information will be found on the DataChile documentation site on March, 3th.
+Please refer to our extensive Wiki documentation for more information.
 
-## DataChile
+## ChileCube
 This is a global class, and connect with DataChile website data.
 
-### DataChile.get(cube, params, sort=False, format="json")
+### ChileCube.get(cube, params, sort=False, format="json")
 Load data from the server using a `requests` and `mondrian_rest`.
 
 # Development
