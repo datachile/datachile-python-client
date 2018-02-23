@@ -1,53 +1,58 @@
 from mondrian_rest import Cube, MondrianClient
-from datachile import client, download
-import json
+from datachile import client
 
 API_BASE = "https://chilecube.datawheel.us"
 
+
 class ChileCube(object):
     def __init__(self):
-        return True
-
-    def get_cubes(self):
-        _client = MondrianClient(API_BASE)
-        return [{
-            "dimensions": item.std_dimensions,
-            "measures": item.measures_by_name
-        } for item in _client.get_cubes()]
+        self.client = MondrianClient(API_BASE)
 
     def get_cube(self, cube_id):
-        _client = MondrianClient(API_BASE)
-        cube = _client.get_cube(cube_id)
+        cube = self.client.get_cube(cube_id)
         return {
-            "dimensions": cube.std_dimensions,
-            "measures": cube.measures_by_name
+            "name": cube.name,
+            "dimensions": cube.dimensions,
+            "measures": cube.measures,
+            "annotations": cube.annotations
         }
 
-    def get_measures(self, cube_id):
-        _client = MondrianClient(API_BASE)
-        cube = _client.get_cube(cube_id)
-        return [ ms for key, ms in cube.measures_by_name.items() ] 
+    def get_cubes(self):
+        return [{
+            "name": cube.name,
+            "dimensions": cube.dimensions,
+            "measures": cube.measures,
+            "annotations": cube.annotations
+        } for cube in self.client.get_cubes()]
 
     def get_drilldowns(self, cube_id):
-        _client = MondrianClient(API_BASE)
-        cube = _client.get_cube(cube_id)
-        
+        cube = self.client.get_cube(cube_id)
+
         dd = []
 
-        for key, dimension in cube.std_dimensions.items():
+        for dimension in cube.dimensions:
             for hierarchy in dimension["hierarchies"]:
                 for level in hierarchy["levels"][1:]:
                     dd.append({
-                        "dimension": dimension["name"],
-                        "hierarchy": hierarchy["name"],
-                        "level": level["name"],
-                        "drilldown": [
-                            dimension["name"], 
-                            hierarchy["name"], 
-                            level["name"]
-                        ]
+                        "dimension":
+                        dimension["name"],
+                        "hierarchy":
+                        hierarchy["name"],
+                        "level":
+                        level["name"],
+                        "drilldown":
+                        [dimension["name"], hierarchy["name"], level["name"]],
+                        "mdx": level["full_name"]
                     })
+
         return dd
+
+    def get_measures(self, cube_id):
+        cube = self.client.get_cube(cube_id)
+        return [ms for ms in cube.measures]
+    
+    def get_members(self, cube_id, dimension, level):
+        return self.client.get_members(cube_id, dimension, level)
 
     def get_regiones(self):
         return [{
@@ -65,12 +70,8 @@ class ChileCube(object):
         } for comuna in MondrianClient(API_BASE).get_members(
             "exports", "Geography", "Comuna")["members"]]
 
-    def get_members(self, cube_id, dimension, level):
-        return MondrianClient(API_BASE).get_members(cube_id, dimension, level)
-
-    def get(self, cube_id, params={}, lang="en", sort=False, fm="json"):
-        _client = MondrianClient(API_BASE)
-        cube = _client.get_cube(cube_id)
+    def get(self, cube_id, params={}, lang="en", sort=False):
+        cube = self.client.get_cube(cube_id)
 
         obj = {
             "caption":
@@ -86,7 +87,7 @@ class ChileCube(object):
 
         if params["cuts"]:
             for cut in params["cuts"]:
-                dd = ".".join("[{}]".format(x) for x in cut["dimension"])
+                dd = ".".join("[{}]".format(x) for x in cut["drilldown"])
                 output = []
                 for value in cut["values"]:
                     output.append("{}.&[{}]".format(dd, value))
@@ -97,12 +98,11 @@ class ChileCube(object):
         if params["parents"]:
             obj["parents"] = params["parents"]
 
-        agg = _client.get_aggregation(cube, obj)
+        agg = self.client.get_aggregation(cube, obj)
         q = agg.tidy
 
         data = []
         n_axes = len(q["axes"])
-        import json
         for item in q["data"]:
             obj = {}
             for i, dd in enumerate(q["axes"]):
@@ -113,16 +113,13 @@ class ChileCube(object):
             data.append(obj)
 
         q["data"] = data
+        q["count"] = len(data)
+        
         if sort:
-            #print(q["data"].sort(key=lambda x: x["FOB US"]))
             q["data"].sort(
                 key=lambda x: [x[attr] for attr in sort["attrs"]],
-                reverse=(True if sort["order"] == "DESC" else False))
+                reverse=(True if sort["order"] == "DESC" else False)
+            )
 
-        if fm == "json":
-            return q
-        elif fm == "xml":
-            return download.Download(q).xml
-        elif fm == "csv":
-            #print(download.Download(q).csv)
-            return download.Download.csv(q, q)
+        return q
+
