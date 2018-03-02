@@ -59,7 +59,7 @@ print(query)
 ```
 
 # Documentation
-Please refer to our Wiki documentation for more information or Datachile API Documentation Website.
+Please refer to our Wiki documentation for more information or [Datachile API Documentation Website](https://datachile.io/about/api).
 
 # Development
 
@@ -69,7 +69,7 @@ Long-term discussion and bug reports are maintained via GitHub Issues. Code revi
 # License
 The MIT License (MIT)
 
-Copyright (c) 2018 Carlos Navarrete
+Copyright (c) 2018 Carlos Navarrete & Datawheel LLC
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
