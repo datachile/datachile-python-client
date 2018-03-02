@@ -59,12 +59,12 @@ print(query)
 ```
 
 # Documentation
-Please refer to our Wiki documentation for more information.
+Please refer to our Wiki documentation for more information or Datachile API Documentation Website.
 
 # Development
 
 ## Contributing
-Long-term discussion and bug reports are maintained via GitHub Issues. Code review is done via GitHub Pull Requests.
+Long-term discussion and bug reports are maintained via GitHub Issues. Code review is done via GitHub Pull Requests. 
 
 # License
 The MIT License (MIT)
