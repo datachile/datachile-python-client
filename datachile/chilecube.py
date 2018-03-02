@@ -70,7 +70,7 @@ class ChileCube(object):
         } for comuna in self.client.get_members(
             "exports", "Geography", "Comuna")["members"]]
 
-    def get(self, cube_id, params={}, lang="en", sort=False):
+    def get(self, cube_id, params={}, lang="en"):
         cube = self.client.get_cube(cube_id)
 
         obj = {
@@ -114,12 +114,6 @@ class ChileCube(object):
 
         q["data"] = data
         q["count"] = len(data)
-        
-        if sort:
-            q["data"].sort(
-                key=lambda x: [x[attr] for attr in sort["attrs"]],
-                reverse=(True if sort["order"] == "DESC" else False)
-            )
 
         return q
 
