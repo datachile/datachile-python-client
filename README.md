@@ -1,4 +1,4 @@
-# DataChile
+# DataChile Python Client
 `DataChile Python Client` is a Python 3 library to access the DataChile API. This library enables you to use public data from differents sources in your Python applications.
 
 # Install
