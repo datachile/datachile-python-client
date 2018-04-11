@@ -2,10 +2,10 @@ from setuptools import setup
 
 setup(
     name='datachile',
-    version='0.0.3',
+    version='0.0.5',
     description='Python client for manage DataChile API',
     url='http://github.com/datawheel/datachile-api',
-    download_url='https://github.com/datawheel/datachile-api/archive/0.0.3.tar.gz',
+    download_url='https://github.com/datawheel/datachile-api/archive/0.0.5.tar.gz',
     author='Carlos Navarrete - Datawheel LLC',
     author_email='cnavarreteliz@gmail.com',
     license='MIT',
@@ -16,7 +16,7 @@ setup(
         'requests'
     ],
     dependency_links=[
-        "git+https://github.com/jazzido/py-mondrian-rest.git#egg=mondrian_rest-0.1"
+        "git+https://github.com/Datawheel/py-mondrian-rest.git#egg=mondrian_rest-0.1"
     ],
     keywords = ['python', 'mondrian', 'olap', 'api'],
     zip_safe=True
