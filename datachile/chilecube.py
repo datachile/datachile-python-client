@@ -1,5 +1,6 @@
 from mondrian_rest import Cube, MondrianClient
 from datachile import client
+from .exception import InvalidParamException
 
 API_BASE = "https://chilecube.datawheel.us"
 
@@ -73,6 +74,12 @@ class ChileCube(object):
     def get(self, cube_id, params={}, df=False, lang="en"):
         cube = self.client.get_cube(cube_id)
 
+        if "drilldowns" not in params:
+            raise InvalidParamException("At least one drilldown is missing")
+
+        if "measures" not in params:
+            raise InvalidParamException("At least one measure is missing")
+
         obj = {
             "caption":
             lang,
@@ -85,7 +92,7 @@ class ChileCube(object):
             } for item in params["measures"]]
         }
 
-        if params["cuts"]:
+        if "cuts" in params:
             for cut in params["cuts"]:
                 dd = ".".join("[{}]".format(x) for x in cut["drilldown"])
                 output = []
@@ -95,10 +102,11 @@ class ChileCube(object):
                 output = "{" + output + "}"
                 obj["cut"].append(output)
 
-        if params["parents"]:
+        if "parents" in params:
             obj["parents"] = params["parents"]
 
         agg = self.client.get_aggregation(cube, obj)
+        
         q = agg.tidy
 
         data = []
@@ -106,6 +114,7 @@ class ChileCube(object):
         for item in q["data"]:
             obj = {}
             for i, dd in enumerate(q["axes"]):
+                obj["ID " + dd["level"]] = item[i]["key"]
                 obj[dd["level"]] = item[i]["caption"]
             for i, ms in enumerate(q["measures"]):
                 obj[ms["caption"]] = item[n_axes + i] if item[n_axes
