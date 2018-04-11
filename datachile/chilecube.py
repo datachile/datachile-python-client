@@ -70,7 +70,7 @@ class ChileCube(object):
         } for comuna in self.client.get_members(
             "exports", "Geography", "Comuna")["members"]]
 
-    def get(self, cube_id, params={}, lang="en"):
+    def get(self, cube_id, params={}, df=False, lang="en"):
         cube = self.client.get_cube(cube_id)
 
         obj = {
@@ -114,6 +114,10 @@ class ChileCube(object):
 
         q["data"] = data
         q["count"] = len(data)
+
+        if df:
+            from pandas import DataFrame
+            return DataFrame(data=q["data"])
 
         return q
 
