@@ -2,13 +2,16 @@
 `DataChile Python Client` is a Python 3 library to access the DataChile API. This library enables you to use public data from differents sources in your Python applications.
 
 # Install
+Install from PyPI, using pip:
+
 `pip install datachile`
 
 # Simple Demo
+Interact with the API:
 
 * Get all datasets availables in DataChile
 
-```
+```Python
 from datachile import ChileCube
 
 client = ChileCube()
@@ -18,7 +21,7 @@ print(query)
 ```
 
 * Get drilldowns availables from "Election Participation" dataset.
-```
+```Python
 from datachile import ChileCube
 
 client = ChileCube()
@@ -32,7 +35,7 @@ print(ms)
 ```
 
 * Get exports from Chile in 2012-2014, divided in Year and Destination Country
-```
+```Python
 from datachile import ChileCube
 
 client = ChileCube()
