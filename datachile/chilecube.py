@@ -1,4 +1,4 @@
-from mondrian_rest import Cube, MondrianClient
+from mondrian-rest import Cube, MondrianClient
 from datachile import client
 from .exception import InvalidParamException
 
@@ -114,7 +114,7 @@ class ChileCube(object):
         for item in q["data"]:
             obj = {}
             for i, dd in enumerate(q["axes"]):
-                obj["ID " + dd["level"]] = item[i]["key"]
+                obj["ID " + dd["level"]] = int(item[i]["key"])
                 obj[dd["level"]] = item[i]["caption"]
             for i, ms in enumerate(q["measures"]):
                 obj[ms["caption"]] = item[n_axes + i] if item[n_axes
@@ -130,3 +130,35 @@ class ChileCube(object):
 
         return q
 
+    def get_all(self, queries):
+        merged = []
+        n_queries = len(queries)
+
+        q = {key: None for key in list(range(n_queries))}
+        
+        for key, query in enumerate(queries):
+            q[key] = self.get( *query, df=False )
+            merged += list(q[key]["data"][0].keys())
+
+        unique_keys = list(
+            set([x for x in merged if merged.count(x) > 1 and x[:3] == "ID "])
+        )
+
+        result = []
+
+        def condition_generator(keys, item1, item2):
+            for key in keys:
+                if item1[key] != item2[key]:
+                    return False
+            
+            return True
+
+        i = 0
+        for item1 in q[i]["data"]:
+            for item2 in q[i + 1]["data"]:
+                if condition_generator(unique_keys, item1, item2):
+                    item = {**item1, **item2}
+                    result.append(item)
+                    break
+        
+        return result
