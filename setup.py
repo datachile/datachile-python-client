@@ -2,10 +2,10 @@ from setuptools import setup
 
 setup(
     name='datachile',
-    version='0.0.7',
+    version='0.0.9',
     description='Python client for manage DataChile API',
     url='http://github.com/datachile/datachile-python-client',
-    download_url='https://github.com/datachile/datachile-python-client/archive/0.0.7.tar.gz',
+    download_url='https://github.com/datachile/datachile-python-client/archive/0.0.9.tar.gz',
     author='Carlos Navarrete - Datawheel LLC',
     author_email='cnavarreteliz@gmail.com',
     license='MIT',

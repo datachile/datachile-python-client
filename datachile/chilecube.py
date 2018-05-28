@@ -1,4 +1,4 @@
-from mondrian-rest import Cube, MondrianClient
+from mondrian_rest import Cube, MondrianClient
 from datachile import client
 from .exception import InvalidParamException
 

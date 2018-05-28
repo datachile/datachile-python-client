@@ -5,6 +5,7 @@ datachile/__init__.py
 datachile/chilecube.py
 datachile/client.py
 datachile/download.py
+datachile/exception.py
 datachile.egg-info/PKG-INFO
 datachile.egg-info/SOURCES.txt
 datachile.egg-info/dependency_links.txt
