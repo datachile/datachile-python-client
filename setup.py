@@ -11,7 +11,7 @@ setup(
     license='MIT',
     packages=['datachile'],
     install_requires=[
-        'mondrian-rest',
+        'mondrian_rest',
         'numpy',
         'requests'
     ],
