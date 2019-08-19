@@ -2,7 +2,7 @@ from mondrian_rest import Cube, MondrianClient
 from datachile import client
 from .exception import InvalidParamException
 
-API_BASE = "https://chilecube.datawheel.us"
+API_BASE = "https://chilecube.datachile.io"
 
 
 class ChileCube(object):
